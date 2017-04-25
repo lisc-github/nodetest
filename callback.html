@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function add(a,b){
+            return a+b;
+        }
+        function lazyAdd(a,cd){
+            return function(b){
+                return cd(a,b);
+            }
+        }
+        var result = lazyAdd(5,add);
+        var t = result(5);
+        console.log(t)
+    </script>
+    <style>
+        #more{
+            cursor:pointer;
+            text-align: center;
+            background:#eee;
+            height:40px;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="more">加载数据</div>
+</body>
+<script>
+    var more = document.getElementById("more");
+    more.onclick = function(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("post","http://127.0.0.1:8888",true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState==4&&xhr.status == 200){
+                console.log(xhr.responseText);
+                var message = document.createElement("div");
+                message.innerHTML = xhr.responseText;
+                document.body.insertBefore(message,more);
+            }
+        };
+        xhr.send();
+    }
+</script>
+</html>
