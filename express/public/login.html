@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form method="post" action="http://127.0.0.1:8800/welcome.html">
+        <input type="text" name="name"><br>
+        <input type="text" name="password"><br>
+        <input type="submit" value="提交">
+    </form>
+</div>
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open("post","http://127.0.0.1:8800");
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState==4&&xhr.status==200){
+            var session = JSON.parse(xhr.responseText);
+            console.log(typeof session);
+            console.log(session.infomation);
+            if(session.infomation){
+                var info = document.createElement("h3");
+                info.innerHTML = "用户名或密码错误";
+                document.body.appendChild(info);
+            }
+        }
+    };
+    xhr.send(null);
+</script>
+</body>
+</html>
